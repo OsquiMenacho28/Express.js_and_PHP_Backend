@@ -36,6 +36,7 @@ export default {
     async saveActor() {
       const res = await createActor(this.Actor);
       console.log(res);
+      this.$router.push({ name: "actors" });
     },
   },
 };
