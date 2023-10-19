@@ -56,23 +56,25 @@ const getById = async (actor_id) => {
 };
 
 const create = async (first_name, last_name) => {
-  console.log(`Creating a new actor: '${(first_name, last_name)}'...`);
+  console.log(`Creating a new actor: '${first_name} ${last_name}'...`);
   try {
     const newActor = await Actor.create({ first_name, last_name });
-    console.log(`Actor '${(first_name, last_name)}' was created successfully.`);
+    console.log(
+      `Actor '${first_name} ${last_name}' was created successfully.`
+    );
     return new ResponseDTO(
       "OK",
       newActor,
-      `Actor '${(first_name, last_name)}' was created successfully.`
+      `Actor '${first_name} ${last_name}' was created successfully.`
     );
   } catch (error) {
     console.error(
-      `Error creating actor '${(first_name, last_name)}': ${error}`
+      `Error creating actor '${first_name} ${last_name}': ${error}`
     );
     return new ResponseDTO(
       "FAILED",
       null,
-      `Error creating actor '${(first_name, last_name)}'.`
+      `Error creating actor '${first_name} ${last_name}'.`
     );
   }
 };

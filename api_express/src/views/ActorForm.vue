@@ -1,23 +1,40 @@
 <template>
-  <form @submit.prevent="saveActor()">
-    <label for="actorFirstName">First Name:</label>
-    <input
-      type="text"
-      name="actorFirstName"
-      id="actorFirstName"
-      placeholder="Enter your First Name"
-      v-model="Actor.first_name"
-    />
-    <label for="actorLastName">Last Name:</label>
-    <input
-      type="text"
-      name="actorLastName"
-      id="actorLastName"
-      placeholder="Enter your Last Name"
-      v-model="Actor.last_name"
-    />
-    <button>SAVE</button>
-  </form>
+  <div class="container w-75">
+    <h1 class="mb-4 fw-light">ACTOR FORM</h1>
+    <h5 class="mb-4 fw-light">
+      Please fill in the blanks and register an Actor.
+    </h5>
+    <div class="bg-body-secondary text-start py-3 px-5 rounded-5 shadow">
+      <form @submit.prevent="saveActor()" method="post">
+        <div class="mb-3">
+          <label for="actorFirstName" class="form-label">First Name:</label>
+          <input
+            type="text"
+            name="actorFirstName"
+            id="actorFirstName"
+            placeholder="Enter your First Name"
+            v-model="Actor.first_name"
+            class="form-control"
+            autofocus
+          />
+        </div>
+        <div class="mb-3">
+          <label for="actorLastName" class="form-label">Last Name:</label>
+          <input
+            type="text"
+            name="actorLastName"
+            id="actorLastName"
+            placeholder="Enter your Last Name"
+            v-model="Actor.last_name"
+            class="form-control"
+          />
+        </div>
+        <div class="text-center">
+          <button class="btn btn-primary shadow">SAVE</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -34,9 +51,34 @@ export default {
   },
   methods: {
     async saveActor() {
-      const res = await createActor(this.Actor);
-      console.log(res);
-      this.$router.push({ name: "actors" });
+      const nameRegExp = /^[A-Za-záéíóúüÁÉÍÓÚÜñÑ\s]{3,}$/;
+      if (this.Actor.first_name === "") {
+        this.showMessage("Error", "Enter your first name please.", "error");
+      } else if (!nameRegExp.test(this.Actor.first_name)) {
+        this.showMessage("Error", "Please enter a valid first name.", "error");
+      } else if (this.Actor.last_name === "") {
+        this.showMessage("Error", "Enter your last name please", "error");
+      } else if (!nameRegExp.test(this.Actor.last_name)) {
+        this.showMessage("Error", "Please enter a valid last name.", "error");
+      } else {
+        const res = await createActor(this.Actor);
+        console.log(res);
+        this.showMessage("¡Success!", res.message, "success");
+        this.$router.push({ name: "actors" });
+      }
+    },
+    showMessage(messageTitle, messageText, messageIcon) {
+      this.$swal({
+        title: messageTitle,
+        text: messageText,
+        icon: messageIcon,
+        showClass: {
+          popup: "animate__animated animate__fadeInDown",
+        },
+        hideClass: {
+          popup: "animate__animated animate__fadeOutUp",
+        },
+      });
     },
   },
 };
