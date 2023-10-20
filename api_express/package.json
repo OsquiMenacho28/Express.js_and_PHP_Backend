@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && npm start --prefix server",
     "lint": "vue-cli-service lint",
     "start": "npm start --prefix server"
   },

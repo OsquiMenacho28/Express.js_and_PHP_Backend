@@ -36,7 +36,11 @@
       <button @click="previousPage()" class="btn btn-outline-secondary me-5">
         P&aacute;gina Anterior
       </button>
-      <button @click="nextPage()" class="btn btn-outline-primary">
+      <button
+        @click="nextPage()"
+        class="btn btn-outline-primary"
+        :disabled="isNextPageDisabled"
+      >
         Siguiente P&aacute;gina
       </button>
     </div>
@@ -61,8 +65,10 @@ export default {
       this.Actors = res;
     },
     nextPage() {
-      this.page += 1;
-      this.fetchPage();
+      if (!this.isNextPageDisabled) {
+        this.page += 1;
+        this.fetchPage();
+      }
     },
     previousPage() {
       if (this.page > 1) {
@@ -86,6 +92,10 @@ export default {
   computed: {
     displayedActors() {
       return this.paginate(this.Actors);
+    },
+    isNextPageDisabled() {
+      const totalPages = Math.ceil(this.Actors.length / this.perPage);
+      return this.page >= totalPages;
     },
   },
   mounted() {
