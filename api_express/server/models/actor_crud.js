@@ -59,9 +59,7 @@ const create = async (first_name, last_name) => {
   console.log(`Creating a new actor: '${first_name} ${last_name}'...`);
   try {
     const newActor = await Actor.create({ first_name, last_name });
-    console.log(
-      `Actor '${first_name} ${last_name}' was created successfully.`
-    );
+    console.log(`Actor '${first_name} ${last_name}' was created successfully.`);
     return new ResponseDTO(
       "OK",
       newActor,

@@ -20,7 +20,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="actor in Actors"
+            v-for="actor in displayedActors"
             :key="actor.actor_id"
             @click="this.$router.push(`/actors/${actor.actor_id}`)"
           >
@@ -32,8 +32,17 @@
         </tbody>
       </table>
     </div>
+    <div class="mb-5">
+      <button @click="previousPage()" class="btn btn-outline-secondary me-5">
+        P&aacute;gina Anterior
+      </button>
+      <button @click="nextPage()" class="btn btn-outline-primary">
+        Siguiente P&aacute;gina
+      </button>
+    </div>
   </div>
 </template>
+
 <script>
 import { getActors } from "../API/ActorService";
 
@@ -41,6 +50,8 @@ export default {
   data() {
     return {
       Actors: [],
+      page: 1,
+      perPage: 10,
     };
   },
   methods: {
@@ -49,9 +60,36 @@ export default {
       console.log(res);
       this.Actors = res;
     },
+    nextPage() {
+      this.page += 1;
+      this.fetchPage();
+    },
+    previousPage() {
+      if (this.page > 1) {
+        this.page -= 1;
+        this.fetchPage();
+      }
+    },
+    async fetchPage() {
+      return fetch(`/actors/?page=${this.page}`).then(() => {
+        this.loadActorsList();
+      });
+    },
+    paginate(Actors) {
+      var page = this.page;
+      var perPage = this.perPage;
+      var from = page * perPage - perPage;
+      var to = page * perPage;
+      return Actors.slice(from, to);
+    },
+  },
+  computed: {
+    displayedActors() {
+      return this.paginate(this.Actors);
+    },
   },
   mounted() {
-    this.loadActorsList();
+    this.fetchPage();
   },
 };
 </script>
