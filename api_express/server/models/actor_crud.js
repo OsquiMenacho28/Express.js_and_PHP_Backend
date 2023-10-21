@@ -2,10 +2,16 @@ const Actor = require("./Actor");
 const ResponseDTO = require("./DataTransferObjects/ResponseDTO");
 const ActorDTO = require("./DataTransferObjects/ActorDTO");
 
-const getAll = async () => {
-  console.log("Getting all the actors...");
+const getAll = async (page, limit) => {
+  console.log(
+    `Getting all the actors in page ${page}, limit: ${limit} actors...`
+  );
   try {
-    const actors = await Actor.findAll();
+    const offset = (page - 1) * limit;
+    const actors = await Actor.findAll({
+      offset: offset,
+      limit: limit,
+    });
     const actorsDTO = actors.map(
       (actor) =>
         new ActorDTO(
@@ -15,17 +21,42 @@ const getAll = async () => {
           actor.last_update
         )
     );
-    console.log("All actors successfully obtained.");
+    console.log(`Page: ${page}: All actors successfully obtained.`);
     return new ResponseDTO(
       "OK",
       actorsDTO,
-      "All actors successfully obtained."
+      `Page: ${page}: All actors successfully obtained.`
     );
   } catch (error) {
     console.error("Error getting all actors: ", error);
-    return new ResponseDTO("FAILED", null, "Error getting all actors.");
+    return new ResponseDTO("FAILED", null, "Error getting all actors: ");
   }
 };
+
+// const getAll = async () => {
+//   console.log("Getting all the actors...");
+//   try {
+//     const actors = await Actor.findAll();
+//     const actorsDTO = actors.map(
+//       (actor) =>
+//         new ActorDTO(
+//           actor.actor_id,
+//           actor.first_name,
+//           actor.last_name,
+//           actor.last_update
+//         )
+//     );
+//     console.log("All actors successfully obtained.");
+//     return new ResponseDTO(
+//       "OK",
+//       actorsDTO,
+//       "All actors successfully obtained."
+//     );
+//   } catch (error) {
+//     console.error("Error getting all actors: ", error);
+//     return new ResponseDTO("FAILED", null, "Error getting all actors.");
+//   }
+// };
 
 const getById = async (actor_id) => {
   console.log(`Getting actor by ID: '${actor_id}'...`);
@@ -137,4 +168,9 @@ const remove = async (actor_id) => {
   }
 };
 
-module.exports = { getAll, getById, create, update, remove };
+const totalRecords = async () => {
+  const totalActors = await Actor.count();
+  return totalActors;
+};
+
+module.exports = { getAll, getById, create, update, remove, totalRecords };

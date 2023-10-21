@@ -2,17 +2,39 @@ const { Router } = require("express");
 const router = Router();
 const actor_crud = require("../models/actor_crud");
 
-// GET ALL FROM ACTOR TABLE
+// GET ALL FROM ACTOR TABLE WITH PAGINATION
 router.get("/actors", async (req, res) => {
-  console.log("GET request received to get all actors.");
-  const response = await actor_crud.getAll();
+  console.log("GET request received to get actors.");
+  const page = parseInt(req.query.page) || 1; // Page number, default 1
+  const limit = 10; // Actors per page
+  const totalActors = await actor_crud.totalRecords();
+  const totalPages = Math.ceil(totalActors / limit); // Total Pages
+  const response = await actor_crud.getAll(page, limit);
   res.json({
     method: "GetAll",
     code: response.code,
     result: response.result,
     message: response.message,
+    meta: {
+      currentPage: page,
+      limit: limit,
+      totalPages: totalPages,
+      totalActors: totalActors,
+    },
   });
 });
+
+// GET ALL FROM ACTOR TABLE
+// router.get("/actors", async (req, res) => {
+//   console.log("GET request received to get all actors.");
+//   const response = await actor_crud.getAll();
+//   res.json({
+//     method: "GetAll",
+//     code: response.code,
+//     result: response.result,
+//     message: response.message,
+//   });
+// });
 
 // GET BY ID FROM ACTOR TABLE
 router.get("/actors/:id", async (req, res) => {

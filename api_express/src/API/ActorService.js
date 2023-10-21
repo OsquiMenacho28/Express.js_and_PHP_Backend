@@ -1,9 +1,18 @@
 const axios = require("./axios");
 
-const getActors = async () => {
-  const response = await axios.get("/actors");
-  return response.data.result;
+const getActors = async (page) => {
+  const response = await axios.get("/actors", {
+    params: {
+      page: page, // page number -> query parameter
+    },
+  });
+  return response.data;
 };
+
+// const getActors = async () => {
+//   const response = await axios.get("/actors");
+//   return response.data.result;
+// };
 
 const getActorById = async (actor_id) => {
   const response = await axios.get("/actors/" + actor_id);

@@ -20,9 +20,9 @@
         </thead>
         <tbody>
           <tr
-            v-for="actor in displayedActors"
+            v-for="actor in Actors.data"
             :key="actor.actor_id"
-            @click="this.$router.push(`/actors/${actor.actor_id}`)"
+            @click="navigateToActor(actor.actor_id)"
           >
             <td>{{ actor.actor_id }}</td>
             <td>{{ actor.first_name }}</td>
@@ -32,18 +32,42 @@
         </tbody>
       </table>
     </div>
-    <div class="mb-5">
-      <button @click="previousPage()" class="btn btn-outline-secondary me-5">
-        P&aacute;gina Anterior
-      </button>
-      <button
-        @click="nextPage()"
-        class="btn btn-outline-primary"
-        :disabled="isNextPageDisabled"
-      >
-        Siguiente P&aacute;gina
-      </button>
-    </div>
+
+    <!-- Pagination buttons -->
+    <nav>
+      <ul class="pagination mb-5 justify-content-center">
+        <li
+          class="page-item"
+          :class="{ disabled: Actors.meta.currentPage === 1 }"
+        >
+          <span
+            class="page-link"
+            @click="loadActorsList(Actors.meta.currentPage - 1)"
+            >Previous page</span
+          >
+        </li>
+        <li
+          class="page-item"
+          v-for="page in pageRange"
+          :key="page"
+          :class="{ active: Actors.meta.currentPage === page }"
+        >
+          <a class="page-link" @click="loadActorsList(page)">{{ page }}</a>
+        </li>
+        <li
+          class="page-item"
+          :class="{
+            disabled: Actors.meta.currentPage === Actors.meta.totalPages,
+          }"
+        >
+          <span
+            class="page-link"
+            @click="loadActorsList(Actors.meta.currentPage + 1)"
+            >Next page</span
+          >
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -53,54 +77,45 @@ import { getActors } from "../API/ActorService";
 export default {
   data() {
     return {
-      Actors: [],
-      page: 1,
-      perPage: 10,
+      Actors: {
+        data: [],
+        meta: {
+          currentPage: 1,
+          totalPages: 1,
+        },
+      },
     };
   },
   methods: {
-    async loadActorsList() {
-      const res = await getActors();
-      console.log(res);
-      this.Actors = res;
+    async loadActorsList(page) {
+      const res = await getActors(page);
+      this.Actors.data = res.result;
+      this.Actors.meta.currentPage = res.meta.currentPage;
+      this.Actors.meta.totalPages = res.meta.totalPages;
     },
-    nextPage() {
-      if (!this.isNextPageDisabled) {
-        this.page += 1;
-        this.fetchPage();
-      }
-    },
-    previousPage() {
-      if (this.page > 1) {
-        this.page -= 1;
-        this.fetchPage();
-      }
-    },
-    async fetchPage() {
-      return fetch(`/actors/?page=${this.page}`).then(() => {
-        this.loadActorsList();
-      });
-    },
-    paginate(Actors) {
-      var page = this.page;
-      var perPage = this.perPage;
-      var from = page * perPage - perPage;
-      var to = page * perPage;
-      return Actors.slice(from, to);
+    navigateToActor(actor_id) {
+      this.$router.push(`/actors/${actor_id}`);
     },
   },
   computed: {
-    displayedActors() {
-      return this.paginate(this.Actors);
-    },
-    isNextPageDisabled() {
-      const totalPages = Math.ceil(this.Actors.length / this.perPage);
-      return this.page >= totalPages;
+    pageRange() {
+      const range = 3;
+      const start = Math.max(1, this.Actors.meta.currentPage - range);
+      const end = Math.min(
+        this.Actors.meta.totalPages,
+        this.Actors.meta.currentPage + range
+      );
+      const pageArray = [];
+      for (let page = start; page <= end; page++) {
+        pageArray.push(page);
+      }
+      return pageArray;
     },
   },
   mounted() {
-    this.fetchPage();
+    this.loadActorsList(this.Actors.meta.currentPage);
   },
 };
 </script>
+
 <style></style>
