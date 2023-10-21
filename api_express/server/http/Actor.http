@@ -1,0 +1,36 @@
+@hostname = localhost
+@port = 3000
+@baseURL = http://{{hostname}}:{{port}}/apiexpress
+
+### GET ALL THE ACTORS
+GET {{baseURL}}/actors
+Accept: application/json
+
+### GET AN ACTOR BY ID
+GET {{baseURL}}/actors/34
+Accept: application/json
+
+### POST AN ACTOR
+POST {{baseURL}}/actors
+Accept: application/json
+Content-Type: application/json
+
+{
+    "first_name": "Alfredo",
+    "last_name": "Silva"
+}
+
+### PUT AN ACTOR
+PUT {{baseURL}}/actors/70
+Accept: application/json
+Content-Type: application/json
+
+{
+    "first_name": "Susana",
+    "last_name": "Martinez"
+}
+
+
+### DELETE AN ACTOR
+DELETE {{baseURL}}/actors/80
+Accept: application/json
