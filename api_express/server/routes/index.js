@@ -2,6 +2,29 @@ const { Router } = require("express");
 const router = Router();
 const actor_crud = require("../models/actor_crud");
 
+/**
+ * @openapi
+ * /apiexpress/actors:
+ *   get:
+ *     tags:
+ *       - Actors
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: OK
+ *                 data:
+ *                   type: array 
+ *                   items: 
+ *                     $ref: "#/Actors"
+ */
+
 // GET ALL FROM ACTOR TABLE WITH PAGINATION
 router.get("/actors", async (req, res) => {
   console.log("GET request received to get actors.");

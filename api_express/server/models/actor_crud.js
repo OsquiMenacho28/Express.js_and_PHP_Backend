@@ -2,6 +2,27 @@ const Actor = require("./Actor");
 const ResponseDTO = require("./DataTransferObjects/ResponseDTO");
 const ActorDTO = require("./DataTransferObjects/ActorDTO");
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Actor:
+ *       type: object
+ *       properties:
+ *         actor_id: 
+ *           type: int
+ *           example: 28
+ *         first_name: 
+ *           type: string
+ *           example: Oscar  
+ *         last_name:
+ *           type: string
+ *           example: Menacho
+ *         last_update:
+ *           type: timestamp
+ *           example: 23-10-2023 10:30:01
+ */
+
 const getAll = async (page, limit) => {
   console.log(
     `Getting all the actors in page ${page}, limit: ${limit} actors...`
