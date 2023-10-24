@@ -7,7 +7,7 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "api_express",
+      title: "Node.js REST API with Express & MySQL By Oscar Menacho Silva",
       version: "1.0.0",
     },
   },
