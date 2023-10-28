@@ -8,6 +8,21 @@ header("Access-Control-Allow-Credentials: true");
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+/**
+ * @OA\Post(
+ * path="/api_php/server/API/createActor.php",
+ * summary="Create a new actor",
+ * tags={"Actors"},
+ * @OA\RequestBody(
+ *     required=true,
+ *     @OA\JsonContent(ref="#/components/schemas/Actor"),
+ * ),
+ * @OA\Response(response="200", description="Actor created successfully"),
+ * @OA\Response(response="400", description="Invalid data provided"),
+ * @OA\Response(response="500", description="Error creating actor"),
+ * )
+ */
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"));
     // echo json_encode($data);

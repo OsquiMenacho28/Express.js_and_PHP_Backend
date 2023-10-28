@@ -8,6 +8,21 @@ header("Access-Control-Allow-Credentials: true");
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+/**
+ * @OA\Put(
+ * path="/api_php/server/API/updateActor.php",
+ * summary="Update an existing actor",
+ * tags={"Actors"},
+ * @OA\RequestBody(
+ *     required=true,
+ *     @OA\JsonContent(ref="#/components/schemas/Actor"),
+ * ),
+ * @OA\Response(response="200", description="Actor updated successfully"),
+ * @OA\Response(response="400", description="Invalid data provided"),
+ * @OA\Response(response="500", description="Error updating actor"),
+ * )
+ */
+
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     $actor_id = (int)$_GET['id'];
     $data = json_decode(file_get_contents("php://input"));

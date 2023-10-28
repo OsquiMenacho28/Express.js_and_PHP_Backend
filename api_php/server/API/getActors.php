@@ -12,6 +12,22 @@ error_reporting(E_ALL);
 // $result = $connection->query($sql);
 // $actors = array();
 
+/**
+ * @OA\Get(
+ *     path="/api_php/server/API/getActors.php",
+ *     summary="Get a list of actors",
+ *     tags={"Actors"},
+ *     @OA\Response(
+ *         response="200",
+ *         description="Success"
+ *     ),
+ *     @OA\Response(
+ *         response="404",
+ *         description="Not found"
+ *     )
+ * )
+ */
+
 // Pagination
 $items_per_page = 10;
 $current_page = isset($_GET['page']) ? $_GET['page'] : 1;

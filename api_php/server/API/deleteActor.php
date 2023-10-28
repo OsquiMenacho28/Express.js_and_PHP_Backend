@@ -8,6 +8,24 @@ header("Access-Control-Allow-Credentials: true");
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+/**
+ * @OA\Delete(
+ * path="/api_php/server/API/deleteActor.php",
+ * summary="Delete an actor by ID",
+ * tags={"Actors"},
+ * @OA\Parameter(
+ *     name="id",
+ *     in="query",
+ *     required=true,
+ *     description="ID of the actor to delete",
+ *     @OA\Schema(type="integer"),
+ * ),
+ * @OA\Response(response="200", description="Actor deleted successfully"),
+ * @OA\Response(response="400", description="Invalid ID provided"),
+ * @OA\Response(response="500", description="Error deleting actor"),
+ * )
+ */
+
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     $actor_id = $_GET['id'];
     // echo "actor_id: " . $actor_id;
