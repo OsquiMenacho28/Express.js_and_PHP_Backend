@@ -6,8 +6,8 @@ This repository hosts the code for developing two distinct backend systems: one 
 
 ## Features
 
-- Express.js Backend: Built on Node.js, it offers a robust and scalable infrastructure for handling API endpoints, routing, and core backend functionality.
-- PHP Backend: This component efficiently manages database operations, ensures data consistency, and enables seamless communication with the MySQL database.
+- **Express.js Backend:** Built on Node.js, it offers a robust and scalable infrastructure for handling API endpoints, routing, and core backend functionality.
+- **PHP Backend:** This component efficiently manages database operations, ensures data consistency, and enables seamless communication with the MySQL database.
 
 ## Prerequisites
 
@@ -29,16 +29,17 @@ git clone https://github.com/OsquiMenacho28/Express.js_and_PHP_Backend.git
 
 ```
 
-2. Express.js Backend:
+2. **Express.js Backend:**
 
-- Navigate to the api_express directory.
-- Install Node.js dependencies by running npm install.
-- Start the Express.js Application: npm run build.
+   - Navigate to the `api_express` directory.
+   - Install Node.js dependencies by running `npm install`.
+   - Start the Express.js Application: `npm run build`.
 
-3. PHP Backend:
+3. **PHP Backend:**
 
-- Head to the api_php directory.
-- Configure the PHP backend to connect to your MySQL database by modifying config.php with your database credentials.
-- Ensure your PHP environment is correctly configured and run the PHP backend using your web server.
+   - Head to the `api_php` directory.
+   - Configure the PHP backend to connect to your MySQL database by modifying `database.php` with your database credentials.
+   - Ensure your PHP environment is correctly configured and run the PHP backend using your `web server`.
+   - Start the Vue.js & PHP Application: `npm run serve`.
 
-You now have both the Express.js and PHP backends up and running, offering a comprehensive backend API for your CRUD operations.
+You now have both the **Express.js** and **PHP backends** up and running, offering a comprehensive backend API for your CRUD operations.
